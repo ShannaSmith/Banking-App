@@ -35,7 +35,7 @@ app.post('/account/create/:name/:email/:password', function (req, res) {
 
 
 // login user 
-app.post('/account/login/:email/:password', function (req, res) {
+app.get('/account/login/:email/:password', function (req, res) {
 
     dal.find(req.params.email).
         then((user) => {
