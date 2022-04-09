@@ -1,6 +1,22 @@
-function Login(){const [show, setShow]     = React.useState(true);
-  const [status, setStatus] = React.useState(' ');
+function Login(props){
+  const [show, setShow]         = React.useState(true);
+  const [status, setStatus]     = React.useState(' ');
+  // const [email, setEmail]       = React.useState('');
+  // const [password, setPassword] = React.useState('');
+  // const loggedIn = localStorage.getItem('email') != null;
+  // const navigate    = ReactRouterDOM.useNavigate;
+  // const useEffect = React.useEffect;
 
+ 
+  //   checkStatus();
+    // function validate(field, label) {
+    //   if (!field) {
+    //     setStatus('Error: ' + label);
+    //     setTimeout(() => setStatus(''), 3000);
+    //     return false;
+    //   }
+    //   return true;
+    // }
   return(
       <Card
           bgcolor="secondary"
@@ -11,33 +27,29 @@ function Login(){const [show, setShow]     = React.useState(true);
               <LoginMsg setShow={setShow}/>}
       />
   )
-}
+};
 
 function LoginMsg(props){
   return(<>
   <h5>Welcome Back</h5>
   <button type="submit"
       className="btn btn-light"
-      onClick={() => props.setShow(true)}>Logout</button>
+      onClick={() => props.setShow(true)}>Success</button>
       </>);
 }
 
 function LoginForm(props){
   const [email, setEmail]       = React.useState('');
   const [password, setPassword] = React.useState('');
-
+ 
   function handleLogin(){
       console.log(email,password);
       const url = `/account/login/${email}/${password}`;
       (async () => {
 
-    var res = await  fetch(url, {
+    const res = await  fetch(url, {
               method: "GET",
           
-        //   body: JSON.stringify({
-        //       email:email ,
-        //       password: password
-        //   })
         })
           .then((res) => res.json())
       .then((res) => {
@@ -48,12 +60,12 @@ function LoginForm(props){
                        localStorage.setItem('data', res.user);
                        console.log('res.', res.user.name);
 
-                       window.location.href = './#/deposit'
+                    // window.location.href = './#/deposit'
         }
     })
       
       })();
-    //   props.setShow(false);
+       props.setShow(false);
   }
   
   return (<>

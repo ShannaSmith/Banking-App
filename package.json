@@ -11,6 +11,7 @@
   "license": "MIT",
   "dependencies": {
     "admin": "^1.4.1",
+    "body-parser": "^1.20.0",
     "cors": "^2.8.4",
     "express": "^4.16.3",
     "firebase": "^9.6.10",

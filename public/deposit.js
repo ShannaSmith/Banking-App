@@ -1,31 +1,33 @@
-function Deposit(props){
+const { render } = require("pug");
+
+function Deposit(){
   const [show, setShow]     = React.useState(true);
   const [status, setStatus] = React.useState('');
+  const [deposit, setDeposit] = React.useState('');
+  const email = localStorage.getItem('email');
+  const [account, setAccount] = React.useState({});
+  const loggedIn = localStorage.getItem('email') != null;
+ // const navigate = useNavigate();
 
-  // const userId = localStorage.getItem("userId");
-      //preventing unauthorised users from accessing the page
-      // React.useEffeect(()=>{
-        //  if (!props.user) {
-        //  window.location.href = "./#/login";
-        //  }
-      // 
-      // }, [user])
-//  
+ React.useEffect( () => {
+  console.log('deposit mount');
+ }, []);
+
   
-  const name= localStorage.getItem('name')
+ const userName = localStorage.getItem('name') || 'James';
   return (
     <>
-    <div className="profile-name">{name}</div>
-  
+    <div className="profile-name">{userName}</div>
+    
     <Card
       bgcolor="warning"
       header="Deposit"
       status={status}
       body={show ? 
-        <DepositForm setShow={setShow} /> :
+        <DepositForm setShow={ setShow  } setDeposit={ setDeposit } setStatus={setStatus} deposit={ deposit } setShow={setShow} /> :
         <DepositMsg setShow={setShow} />}
     />
-      </>
+     </>
   )
 }
 
@@ -41,19 +43,58 @@ function DepositMsg(props){
   </>);
 } 
 
+function getAccount( email ) {
+  const url = `/account/find/${email}`;
+  (async () => {
+    const res = await fetch(url);
+    const data = await res.json();
+    setAccount(data[0]);
+  })();  
+}
+
+function validate(num, setStatus) {
+  if (isNaN(parseFloat(num))) {
+    setStatus('Error: Please enter numbers Only');
+    setTimeout(() => setStatus(''), 3000);
+    return false;
+  }
+  return true;
+}
+
+function negValidate(num, setStatus) {
+  if (num < 0) {
+    setStatus('Error: Invalid Entry. Please enter a number greater than 0.');
+    setTimeout(() => setStatus(''), 3000);
+    return false;
+  }
+  return true;
+}
+
+
 function DepositForm(props){
+  console.log('deposit form props', props);
+
   const [email, setEmail]   = React.useState('');
   const [amount, setAmount] = React.useState('');
 
   function handle(){
-   const url = `/account/deposit/${email}/${amount}`;
+    if(!validate(amount, props.setStatus) || (!negValidate( amount, props.setStatus  )))
+    return;
+   const url = `/account/update`;
   
     (async () => {
-        var res = await fetch(url);
-        var data = await res.json();
+      const res = await fetch(url,  {method: 'PUT', headers: { 'Content-Type': 'application/json'  }, body: JSON.stringify(  { email, amount  } ),   });
+        const data = await res.json();
         console.log(data);
     })();
+    getAccount( email );
     props.setShow(false);
+    clearForm( props.setDeposit, props.setShow );
+  }
+
+  function clearForm( setDeposit, setShow ) {
+    setDeposit('');
+    setShow(true);
   }
 
   return(<>
@@ -63,13 +104,13 @@ function DepositForm(props){
     <input type="input" 
       className="form-control" 
       placeholder="Enter email" 
-      value={email} onChange={e => setEmail(e.currentTarget.value)}/><br/>
+      value={email} onChange={e => setEmail(e.target.value)}/><br/>
       
     Amount<br/>
     <input type="number" 
       className="form-control" 
       placeholder="Enter amount" 
-      value={amount} onChange={e => setAmount(e.currentTarget.value)}/><br/>
+      value={amount} onChange={e => setAmount(e.target.value)}/><br/>
 
     <button type="submit" 
       className="btn btn-light" 

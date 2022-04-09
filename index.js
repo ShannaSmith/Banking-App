@@ -2,7 +2,14 @@ var express = require('express');
 var app     = express();
 var cors    = require('cors');
 var dal     = require('./dal.js');
+var bodyParser = require('body-parser');
 const methodOverride = require('method-override');
+
+app.use( bodyParser.urlencoded( {
+    extended: true
+}) );
+app.use( bodyParser.json() );
+
 // used to serve static files from public directory
 app.use(express.static('public'));
 
@@ -23,7 +30,7 @@ app.post('/account/create/:name/:email/:password', function (req, res) {
             }
             else{
                 // else create user
-                dal.create(req.params.name,req.params.email,req.params.password).
+                dal.create(req.params.userName,req.params.email,req.params.password).
                     then((user) => {
                         console.log(user);
                         res.send(user);            
@@ -82,13 +89,14 @@ app.get('/account/findOne/:email', function (req, res) {
 
 
 // update - deposit/withdraw amount
-app.put('/account/update/:email/:amount', function (req, res) {
+app.put('/account/update', function (req, res) {
 
-    var amount = Number(req.params.amount);
+    console.log('req.body',  req.body);
+    var amount = Number(req.body.amount);
 
-    dal.update(req.params.email, amount).
+    dal.update(req.body.email, amount).
         then((response) => {
-            console.log(response);
+           //  console.log(response);
             res.send(response);
     });    
 });
