@@ -88,11 +88,11 @@ app.get('/account/findOne/:email', function (req, res) {
 });
 
 
-// update - deposit/withdraw amount
+// update - deposit/
 app.put('/account/update', function (req, res) {
 
     console.log('req.body',  req.body);
-    var amount = Number(req.body.amount);
+    const amount = Number(req.body.amount);
 
     dal.update(req.body.email, amount).
         then((response) => {
@@ -100,6 +100,20 @@ app.put('/account/update', function (req, res) {
             res.send(response);
     });    
 });
+
+// update - withdraw/
+app.put('/account/updateWithdraw', function (req, res) {
+
+    console.log('req.body',  req.body);
+    const amount = -Math.abs( Number(req.body.amount));
+
+    dal.update(req.body.email, amount).
+        then((response) => {
+           //  console.log(response);
+            res.send(response);
+    });    
+});
+
 
 // all accounts
 app.get('/account/all', function (req, res) {

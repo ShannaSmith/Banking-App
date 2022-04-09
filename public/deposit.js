@@ -1,4 +1,4 @@
-const { render } = require("pug");
+
 
 function Deposit(){
   const [show, setShow]     = React.useState(true);
@@ -10,11 +10,11 @@ function Deposit(){
  // const navigate = useNavigate();
 
  React.useEffect( () => {
-  console.log('deposit mount');
+  console.log('deposit amount');
  }, []);
 
   
- const userName = localStorage.getItem('name') || 'James';
+ const userName = localStorage.getItem('name') || 'MITxPRO';
   return (
     <>
     <div className="profile-name">{userName}</div>
@@ -37,8 +37,8 @@ function DepositMsg(props){
     <button type="submit" 
       className="btn btn-light" 
       onClick={() => {
-          props.setShow(true)}}>
-        
+          props.setShow(false)}}>
+       Successful Deposit 
     </button>
   </>);
 } 
@@ -94,7 +94,7 @@ function DepositForm(props){
 
   function clearForm( setDeposit, setShow ) {
     setDeposit('');
-    setShow(true);
+    setShow(false);
   }
 
   return(<>
