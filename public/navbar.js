@@ -1,4 +1,12 @@
 function NavBar(){
+
+  const handlelogout=()=>{
+    localStorage.clear();
+    window.location = "./#"
+    }
+
+
+          
   return(
 
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -8,6 +16,10 @@ function NavBar(){
       </button>
       <div className="collapse navbar-collapse" id="navbarNav">
         <ul className="navbar-nav">
+          <li className="nav-item">
+          <a className="nav-link" id="logout" onClick={handlelogout}>logout</a>
+          </li>
+
           <li className="nav-item">
             <a className="nav-link" href="#/CreateAccount/">Create Account</a>
           </li>
@@ -25,7 +37,8 @@ function NavBar(){
           </li>
           <li className="nav-item">
             <a className="nav-link" href="#/alldata/">AllData</a>
-          </li>          
+          </li>
+        
         </ul>
       </div>
     </nav>

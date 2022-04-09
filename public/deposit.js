@@ -1,8 +1,22 @@
-function Deposit(){
+function Deposit(props){
   const [show, setShow]     = React.useState(true);
-  const [status, setStatus] = React.useState('');  
+  const [status, setStatus] = React.useState('');
 
+  // const userId = localStorage.getItem("userId");
+      //preventing unauthorised users from accessing the page
+      // React.useEffeect(()=>{
+        //  if (!props.user) {
+        //  window.location.href = "./#/login";
+        //  }
+      // 
+      // }, [user])
+//  
+  
+  const name= localStorage.getItem('name')
   return (
+    <>
+    <div className="profile-name">{name}</div>
+  
     <Card
       bgcolor="warning"
       header="Deposit"
@@ -11,6 +25,7 @@ function Deposit(){
         <DepositForm setShow={setShow} /> :
         <DepositMsg setShow={setShow} />}
     />
+      </>
   )
 }
 
@@ -42,6 +57,7 @@ function DepositForm(props){
   }
 
   return(<>
+
 
     Email<br/>
     <input type="input" 

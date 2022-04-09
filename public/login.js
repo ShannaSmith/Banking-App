@@ -25,17 +25,35 @@ function LoginMsg(props){
 function LoginForm(props){
   const [email, setEmail]       = React.useState('');
   const [password, setPassword] = React.useState('');
-  
 
-  function handle(){
+  function handleLogin(){
       console.log(email,password);
       const url = `/account/login/${email}/${password}`;
       (async () => {
-          var res = await fetch(url);
-          var data = await res.json();
-          console.log(data);
+
+    var res = await  fetch(url, {
+              method: "GET",
+          
+        //   body: JSON.stringify({
+        //       email:email ,
+        //       password: password
+        //   })
+        })
+          .then((res) => res.json())
+      .then((res) => {
+        console.log("res", res);
+        if (res.success) {
+                       console.log("res2", res.success);
+                       localStorage.setItem("name", res.user.name);
+                       localStorage.setItem('data', res.user);
+                       console.log('res.', res.user.name);
+
+                       window.location.href = './#/deposit'
+        }
+    })
+      
       })();
-      props.setShow(false);
+    //   props.setShow(false);
   }
   
   return (<>
@@ -56,6 +74,6 @@ function LoginForm(props){
 
   <button type="submit"
       className="btn btn-light"
-      onClick={handle}>Login</button>
+      onClick={handleLogin}>Login</button>
   </>);
 }

@@ -43,7 +43,11 @@ app.get('/account/login/:email/:password', function (req, res) {
             // if user exists, check password
             if(user.length > 0){
                 if (user[0].password === req.params.password){
-                    res.send(user[0]);
+                    res.status(200).send({
+                        msg: "user login succesfully",
+                       user:  user[0],
+                       success: true
+                    })  
                 }
                 else{
                     res.status(401).send('Login failed: wrong password');
