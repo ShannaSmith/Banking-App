@@ -2,12 +2,10 @@ function Withdraw(){
   const [show, setShow]     = React.useState(true);
   const [status, setStatus] = React.useState('');  
   const [withdraw, setWithdraw] = React.useState('');
-  const userName = localStorage.getItem('name') || 'MITxPRO';
+  
   
  return (
-  <>
-  <div className="profile-name">{userName}</div>
-  
+ 
     <Card
       bgcolor="success"
       header="Withdraw"
@@ -16,7 +14,7 @@ function Withdraw(){
         <WithdrawForm setShow={ setShow  } setWithdraw={ setWithdraw } setStatus={setStatus} withdraw={ withdraw } setShow={setShow} /> :
         <WithdrawMsg setShow={setShow}/>}
     />
-    </>
+    
   )
       }    
 
@@ -64,7 +62,7 @@ function WithdrawForm(props){
         (async () => {
           const res = await fetch(url, {method: 'PUT', headers: { 'Content-Type': 'application/json'  }, body: JSON.stringify(  { email, amount  } ),   });
             const data = await res.json();
-            console.log(data);
+          
         })();
         getAccount(email);
         props.setShow(false);
@@ -97,6 +95,6 @@ function WithdrawForm(props){
         Withdraw
     </button>
 
-;  </>);
+ </>);
  };
 

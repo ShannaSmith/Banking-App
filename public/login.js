@@ -1,23 +1,10 @@
 function Login(props){
   const [show, setShow]         = React.useState(true);
   const [status, setStatus]     = React.useState(' ');
-  // const [email, setEmail]       = React.useState('');
-  // const [password, setPassword] = React.useState('');
-  // const loggedIn = localStorage.getItem('email') != null;
-  // const navigate    = ReactRouterDOM.useNavigate;
-  // const useEffect = React.useEffect;
-
- 
-  //   checkStatus();
-    // function validate(field, label) {
-    //   if (!field) {
-    //     setStatus('Error: ' + label);
-    //     setTimeout(() => setStatus(''), 3000);
-    //     return false;
-    //   }
-    //   return true;
-    // }
-  return(
+ // const userName = localStorage.getItem('name') || 'MITxPRO';
+   return(
+    
+    
       <Card
           bgcolor="secondary"
           header="Login"
@@ -26,6 +13,7 @@ function Login(props){
               <LoginForm setShow={setShow}/> :
               <LoginMsg setShow={setShow}/>}
       />
+     
   )
 };
 
@@ -34,7 +22,7 @@ function LoginMsg(props){
   <h5>Welcome Back</h5>
   <button type="submit"
       className="btn btn-light"
-      onClick={() => props.setShow(true)}>Success</button>
+      onClick={() => props.setShow(false)}>Success</button>
       </>);
 }
 
@@ -60,7 +48,7 @@ function LoginForm(props){
                        localStorage.setItem('data', res.user);
                        console.log('res.', res.user.name);
 
-                    // window.location.href = './#/deposit'
+               
         }
     })
       

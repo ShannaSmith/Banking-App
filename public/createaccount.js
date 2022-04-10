@@ -1,7 +1,7 @@
 const CreateAccount = () => {
   const [show, setShow]          = React.useState(true);
   const [status, setStatus]      = React.useState('');
-  const [userName, setuserName]  = React.useState('');
+  const [name, setName]  = React.useState('');
   const [email, setEmail]        = React.useState('');
   const [password, setPassword]  = React.useState('');
 
@@ -19,17 +19,17 @@ function validate(field, label){
   
 
   function handleCreate(){
-        console.log(userName,email,password);
-    if (!validate(userName, 'name')) return;
+        console.log(name,email,password);
+    if (!validate(name, 'name')) return;
     if (!validate(email, 'email')) return;
     if (!validate(password, 'password')) return;
-    const url = `/account/create/${userName}/${email}/${password}`;
+    const url = `/account/create/${name}/${email}/${password}`;
         (async () => {
             var res  = await fetch(url, {method: 'POST'});
             if (res.status === 200) {
                 const data = await res.json();    
                 console.log(data);        
-                setShow(false);       
+                setShow(true);       
             } else {
                 alert('User already exsists.')
             }
@@ -37,7 +37,7 @@ function validate(field, label){
         setName('');
       setEmail('');
       setPassword('');
-      setShow(false);
+      setShow(true);
     }    
     function clearForm(){
       setName('');
@@ -46,6 +46,7 @@ function validate(field, label){
       setShow(true);
   }
       return(
+         
           <Card
           bgcolor="primary"
           header="Create Account"
@@ -53,7 +54,7 @@ function validate(field, label){
           body={show ? (
                  <>
                  Name<br/>
-                 <input type="input"className="form-control" id="name" placeholder="Enter name" value={userName} onChange={e => setName(e.currentTarget.value)} /><br/>
+                 <input type="input"className="form-control" id="name" placeholder="Enter name" value={name} onChange={e => setName(e.currentTarget.value)} /><br/>
                  Email address<br/>
                  <input type="input" className="form-control" id="email" placeholder="Enter email" value={email} onChange={e => setEmail(e.currentTarget.value)}/><br/>
                  Password
@@ -70,6 +71,7 @@ function validate(field, label){
   
   
           />
+        
       );
   }
     

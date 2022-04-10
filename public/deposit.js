@@ -1,5 +1,4 @@
 
-
 function Deposit(){
   const [show, setShow]     = React.useState(true);
   const [status, setStatus] = React.useState('');
@@ -7,19 +6,16 @@ function Deposit(){
   const email = localStorage.getItem('email');
   const [account, setAccount] = React.useState({});
   const loggedIn = localStorage.getItem('email') != null;
- // const navigate = useNavigate();
+ 
 
- React.useEffect( () => {
-  console.log('deposit amount');
- }, []);
+//  React.useEffect( () => {
+//   console.log('deposit amount');
+//  }, []);
 
   
- const userName = localStorage.getItem('name') || 'MITxPRO';
+
   return (
-    <>
-    <div className="profile-name">{userName}</div>
-    
-    <Card
+        <Card
       bgcolor="warning"
       header="Deposit"
       status={status}
@@ -27,7 +23,7 @@ function Deposit(){
         <DepositForm setShow={ setShow  } setDeposit={ setDeposit } setStatus={setStatus} deposit={ deposit } setShow={setShow} /> :
         <DepositMsg setShow={setShow} />}
     />
-     </>
+     
   )
 }
 
@@ -49,7 +45,7 @@ function getAccount( email ) {
     const res = await fetch(url);
     const data = await res.json();
     setAccount(data[0]);
-  })();  
+      })();  
 }
 
 function validate(num, setStatus) {
@@ -85,7 +81,7 @@ function DepositForm(props){
     (async () => {
       const res = await fetch(url,  {method: 'PUT', headers: { 'Content-Type': 'application/json'  }, body: JSON.stringify(  { email, amount  } ),   });
         const data = await res.json();
-        console.log(data);
+      
     })();
     getAccount( email );
     props.setShow(false);

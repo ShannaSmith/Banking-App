@@ -25,12 +25,11 @@ app.post('/account/create/:name/:email/:password', function (req, res) {
 
             // if user exists, return error message
             if(users.length > 0){
-                console.log('User already exists');
-                res.status(401).send('User already exists');    
+             res.status(401).send('User already exists');    
             }
             else{
                 // else create user
-                dal.create(req.params.userName,req.params.email,req.params.password).
+                dal.create(req.params.name,req.params.email,req.params.password).
                     then((user) => {
                         console.log(user);
                         res.send(user);            
@@ -76,6 +75,7 @@ app.get('/account/find/:email', function (req, res) {
             res.send(user);
     });
 });
+
 
 // find one user by email - alternative to find
 app.get('/account/findOne/:email', function (req, res) {
