@@ -1,40 +1,86 @@
-function NavBar(){
-  
-  const handlelogout=()=>{
+function NavBar() {
+  const { setUser, user } = React.useContext(UserContext);
+  const Link = ReactRouterDOM.Link;
+  const history = ReactRouterDOM.useHistory();
+
+  const handlelogout = () => {
+    setUser(null);
     localStorage.clear();
-    window.location = "./#"
-    }
+    history.push("/");
+  };
 
-  return(
-
+  return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
-      <a className="navbar-brand" href="#">BadBank</a>
-      <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <Link className="navbar-brand" to="#">
+        BadBank
+      </Link>
+      <button
+        className="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
         <span className="navbar-toggler-icon"></span>
       </button>
-      <div className="collapse navbar-collapse d-lg-inline-flex flex-lg-row-reverse" id="navbarNav">
+      <div
+        className="collapse navbar-collapse d-lg-inline-flex flex-lg-row-reverse"
+        id="navbarNav"
+      >
         <ul className="navbar-nav">
-        <li className="nav-item">
-          <a className="nav-link" id="logout" onClick={handlelogout}>logout</a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link" href="#/CreateAccount/">Create Account</a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link" href="#/login/">Login</a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link" href="#/deposit/">Deposit</a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link" href="#/withdraw/">Withdraw</a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link" href="#/alldata/">AllData</a>
-          </li>          
+          {user ? (
+            <>
+              <li className="nav-item">
+                <Link
+                  className="nav-link"
+                  id="logout"
+                  to="#"
+                  onClick={handlelogout}
+                >
+                  logout
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/deposit">
+                  Deposit
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/withdraw">
+                  Withdraw
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/alldata">
+                  AllData
+                </Link>
+              </li>
+            </>
+          ) : (
+            <>
+              <li className="nav-item">
+                <Link className="nav-link" to="/create-account">
+                  Create Account
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/login">
+                  Login
+                </Link>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="/login/google">
+                  Login With Google
+                </a>
+              </li>
+            </>
+          )}
+
+          <li className="nav-item float-right">{user?.name}</li>
         </ul>
       </div>
     </nav>
-
   );
 }

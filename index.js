@@ -2,9 +2,14 @@ require('dotenv').config();
 var express = require('express');
 var app     = express();
 var cors    = require('cors');
-var dal     = require('./dal.js');
 var bodyParser = require('body-parser');
 const methodOverride = require('method-override');
+var passport = require('passport');
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
+
+var dal     = require('./dal.js');
+const authRouter = require('./auth');
 
 app.use( bodyParser.urlencoded( {
     extended: true
@@ -12,10 +17,24 @@ app.use( bodyParser.urlencoded( {
 app.use( bodyParser.json() );
 
 // used to serve static files from public directory
-app.use(express.static('public'));
+
 
 app.use(cors());
 app.use(methodOverride('_method'));
+
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static('public'));
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false, // don't save session if unmodified
+  saveUninitialized: false, // don't create session until something stored
+  // store: new SQLiteStore({ db: 'sessions.db', dir: 'var/db' })
+}));
+
+app.use(passport.authenticate('session'));
+
+app.use('/', authRouter);
 
 // create user account
 app.post('/account/create/:name/:email/:password', function (req, res) {

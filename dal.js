@@ -24,7 +24,7 @@ function create(name, email, password) {
 // find user account
 function find(email) {
   return new Promise((resolve, reject) => {
-    const customers = db
+    db
       .collection("users")
       .find({ email: email })
       .toArray(function (err, docs) {
@@ -36,7 +36,7 @@ function find(email) {
 // find user account
 function findOne(email) {
   return new Promise((resolve, reject) => {
-    const customers = db
+     db
       .collection("users")
       .findOne({ email: email })
       .then((doc) => resolve(doc))

@@ -1,22 +1,46 @@
+function Spa() {
+  const [user, setUser] = React.useState(null);
 
-
-function Spa() {;
-
-  const [user, setUser] = React.useState('')
+  const PrivateRoute = ({ ...props }) => {
+    return user ? (
+      <ReactRouterDOM.Route {...props} />
+    ) : (
+      <ReactRouterDOM.Redirect to="/login" />
+    );
+  };
 
   return (
     <HashRouter>
       <div>
-        <NavBar/>        
-        <UserContext.Provider value={{users:[{name:'abel',email:'abel@mit.edu',password:'secret',balance:100}]}}>
-          <div className="container" style={{padding: "20px"}}>
-            <Route path="/" exact component={Home} />
-            <Route path="/createaccount/" component={CreateAccount} />
-            <Route path="/login/" component={Login} />
-            <Route path="/deposit/" component={Deposit} />
-            <Route path="/logout/" element={<Logout handleLogout={() => handleLogout()}/>} />
-            <Route path="/withdraw/" component={Withdraw} />
-            <Route path="/alldata/" component={AllData} />
+        <UserContext.Provider
+          value={{
+            users: [
+              {
+                name: "abel",
+                email: "abel@mit.edu",
+                password: "secret",
+                balance: 100,
+              },
+            ],
+            setUser,
+            user,
+          }}
+        >
+          <NavBar />
+
+          <div className="container" style={{ padding: "20px" }}>
+            <ReactRouterDOM.Switch>
+              <Route path="/" exact component={Home} />
+              <Route path="/create-account" component={CreateAccount} />
+              <Route path="/login" component={Login} />
+              <PrivateRoute path="/deposit" component={Deposit} />
+              <PrivateRoute
+                path="/logout"
+                element={<Logout handleLogout={() => handleLogout()} />}
+              />
+              <PrivateRoute path="/withdraw" component={Withdraw} />
+              <PrivateRoute path="/alldata" component={AllData} />
+            </ReactRouterDOM.Switch>
           </div>
         </UserContext.Provider>
       </div>
@@ -24,9 +48,4 @@ function Spa() {;
   );
 }
 
-ReactDOM.render(
-  <Spa/>,
-  document.getElementById('root')
-);
-
-
+ReactDOM.render(<Spa />, document.getElementById("root"));
