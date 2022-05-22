@@ -1,1 +1,1 @@
-# Standaloe-bank
+# Banking App
